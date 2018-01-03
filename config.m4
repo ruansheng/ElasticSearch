@@ -13,9 +13,9 @@ dnl [  --with-elasticsearch             Include elasticsearch support])
 
 dnl Otherwise use enable:
 
-dnl PHP_ARG_ENABLE(elasticsearch, whether to enable elasticsearch support,
+PHP_ARG_ENABLE(elasticsearch, whether to enable elasticsearch support,
 dnl Make sure that the comment is aligned:
-dnl [  --enable-elasticsearch           Enable elasticsearch support])
+[  --enable-elasticsearch           Enable elasticsearch support])
 
 if test "$PHP_ELASTICSEARCH" != "no"; then
   dnl Write more examples of tests here...
@@ -59,5 +59,7 @@ if test "$PHP_ELASTICSEARCH" != "no"; then
   dnl
   dnl PHP_SUBST(ELASTICSEARCH_SHARED_LIBADD)
 
-  PHP_NEW_EXTENSION(elasticsearch, elasticsearch.c, $ext_shared,, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+  PHP_NEW_EXTENSION(elasticsearch, 
+    elasticsearch.c \
+    elasticsearch_client.c, $ext_shared,, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 fi

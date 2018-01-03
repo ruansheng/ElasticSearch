@@ -38,6 +38,10 @@ extern zend_module_entry elasticsearch_module_entry;
 #include "TSRM.h"
 #endif
 
+#define ELASTICSEARCH_STARTUP_FUNCTION(module) ZEND_MINIT_FUNCTION(elasticsearch_##module)
+#define ELASTICSEARCH_STARTUP(module) ZEND_MODULE_STARTUP_N(elasticsearch_##module)(INIT_FUNC_ARGS_PASSTHRU)
+#define ELASTICSEARCH_RINIT_FUNCTION(module) ZEND_RINIT_FUNCTION(elasticsearch_##module)
+
 /*
   	Declare any global variables you may need between the BEGIN
 	and END macros here:
