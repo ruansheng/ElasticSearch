@@ -21,8 +21,8 @@ add 'extension=elasticsearch.so'
 ```
 function printElasticSearchDocument();
 class ElasticSearchClient
-    private static $connect_timeout = 1000;  // unit:ms  default:1000ms
-    private static $request_timeout = 2000;  // unit:ms  default:2000ms
+    public static $connect_timeout = 1000;  // unit:ms  default:1000ms
+    public static $request_timeout = 2000;  // unit:ms  default:2000ms
     private $host = "";
     private $port = "";
     private $message = "";
