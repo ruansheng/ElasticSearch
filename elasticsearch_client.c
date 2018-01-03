@@ -9,6 +9,13 @@
 
 zend_class_entry *elasticsearch_client_ce;
 
+/** {{{ proto public ElasticSearchClient::__construct()
+*/
+PHP_METHOD(elasticsearch_client, __construct) {
+    php_printf("ElasticSearchClient __construct!");
+}
+/* }}} */
+
 /** {{{ proto public ElasticSearchClient::add()
 */
 PHP_METHOD(elasticsearch_client, add) {
