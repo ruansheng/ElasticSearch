@@ -9,7 +9,7 @@
 
 zend_class_entry *elasticsearch_client_ce;
 
-/** {{{ pmc_util_methods
+/** {{{ elasticsearch_client_methods
 */
 zend_function_entry elasticsearch_client_methods[] = {
         PHP_ME(elasticsearch_client, show, NULL, ZEND_ACC_PUBLIC)
@@ -17,10 +17,10 @@ zend_function_entry elasticsearch_client_methods[] = {
 };
 /* }}} */
 
-/** {{{ proto public PmcUtil::show()
+/** {{{ proto public ElasticSearchClient::show()
 */
-PHP_METHOD(pmc_util, show) {
-    php_printf("hello util!");
+PHP_METHOD(elasticsearch_client, show) {
+    php_printf("hello ElasticSearchClient show!");
 }
 /* }}} */
 
