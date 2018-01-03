@@ -21,11 +21,11 @@ add 'extension=elasticsearch.so'
 ```
 function printElasticSearchDocument();
 class ElasticSearchClient
-    private static $connect_timeout = 1;  // unit:ms  default:1000ms
-    private static $request_timeout = 2;  // unit:ms  default:2000ms
+    private static $connect_timeout = 1000;  // unit:ms  default:1000ms
+    private static $request_timeout = 2000;  // unit:ms  default:2000ms
     private $host = "";
     private $port = "";
-    public $message = "";
+    private $message = "";
     public function __construct(string $host, int $port)
     public function add($params) : mixed
     public function remove($params) : mixed
@@ -33,6 +33,6 @@ class ElasticSearchClient
     public function get($params) : mixed
     public function search($params) : mixed
     public function getMessage() : string
-    public static function setConnectTimeout($seconds) : bool
-    public static function setRequestTimeout($seconds) : bool
+    public static function setConnectTimeout($millisecond) : bool
+    public static function setRequestTimeout($millisecond) : bool
 ```
