@@ -54,7 +54,23 @@ PHP_INI_END()
    Return a string to confirm that the module is compiled in */
 PHP_FUNCTION(printElasticSearchDocument)
 {
-	
+	php_printf("--- ElasticSearch PHP7 Ext Document ---\n");
+	php_printf("     function printElasticSearchDocument();\n");
+	php_printf("     class ElasticSearchClient\n");
+	php_printf("         private static $connect_timeout = 1000;  // unit:ms  default:1000ms\n");
+	php_printf("         private static $request_timeout = 2000;  // unit:ms  default:2000ms\n");
+	php_printf("         private $host = \"\";\n");
+	php_printf("         private $port = \"\";\n");
+	php_printf("         private $message = \"\";\n");
+	php_printf("         public function __construct(string $host, int $port)\n");
+	php_printf("         public function add($params) : mixed\n");
+	php_printf("         public function remove($params) : mixed\n");
+	php_printf("         public function update($params) : mixed\n");
+	php_printf("         public function get($params) : mixed\n");
+	php_printf("         public function search($params) : mixed\n");
+	php_printf("         public function getMessage() : string\n");
+	php_printf("         public static function setConnectTimeout($millisecond) : bool\n");
+	php_printf("         public static function setRequestTimeout($millisecond) : bool\n");
 }
 /* }}} */
 /* The previous line is meant for vim and emacs, so it can correctly fold and
