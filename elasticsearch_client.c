@@ -13,6 +13,26 @@ zend_class_entry *elasticsearch_client_ce;
 */
 PHP_METHOD(elasticsearch_client, __construct) {
     php_printf("ElasticSearchClient __construct!");
+    zval *host;
+	zval *port;
+
+	// parse method args
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "zz", &host, &port) == FAILURE) {
+		return;
+	}
+
+    if (Z_TYPE_P(host) == IS_STRING) {
+		zend_update_property_string(elastic_search_client_ce, getThis(), "host", sizeof("host") - 1, Z_STR_P(host));
+	}
+
+    // deal with port field string convert to long
+    if(Z_TYPE_P(port) == IS_STRING) {
+        convert_to_long(port);
+    }
+
+	if (Z_TYPE_P(port) == IS_LONG) {
+	    zend_update_property_long(elastic_search_client_ce, getThis(), "port", sizeof("port") - 1, Z_LVAL_P(port));
+    }
 }
 /* }}} */
 
@@ -117,10 +137,16 @@ zend_function_entry elasticsearch_client_methods[] = {
 /* }}} */
 
 ELASTICSEARCH_STARTUP_FUNCTION(client){
-        zend_class_entry ce;
+    zend_class_entry ce;
 
-        INIT_CLASS_ENTRY(ce, "ElasticSearchClient", elasticsearch_client_methods);
-        elasticsearch_client_ce = zend_register_internal_class(&ce);
+    INIT_CLASS_ENTRY(ce, "ElasticSearchClient", elasticsearch_client_methods);
+    elasticsearch_client_ce = zend_register_internal_class(&ce);
 
-        return SUCCESS;
+    zend_declare_property_string(elastic_search_client_ce, "host", sizeof("host") - 1, "locaohost", ZEND_ACC_PRIVATE);
+	zend_declare_property_long(elastic_search_client_ce, "port", sizeof("port") - 1, 9023L, ZEND_ACC_PRIVATE);
+	zend_declare_property_string(elastic_search_client_ce, "message", sizeof("message") - 1, "", ZEND_ACC_PRIVATE);
+	zend_declare_property_long(elastic_search_client_ce, "connect_timeout", sizeof("connect_timeout") - 1, 1L, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC);
+	zend_declare_property_long(elastic_search_client_ce, "request_timeout", sizeof("request_timeout") - 1, 2L, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC);
+
+    return SUCCESS;
 }
