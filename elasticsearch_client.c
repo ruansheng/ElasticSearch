@@ -117,7 +117,7 @@ PHP_METHOD(elasticsearch_client, add) {
 		RETURN_FALSE;
     }
 
-	zval_ptr_dtor(zv_body);
+	//zval_ptr_dtor(zv_body);
 /*
 	// 请求es服务
 	chunk ret;
