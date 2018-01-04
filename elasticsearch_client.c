@@ -106,7 +106,7 @@ PHP_METHOD(elasticsearch_client, add) {
 
     connect_timeout = zend_read_static_property(elasticsearch_client_ce, "connect_timeout", sizeof("connect_timeout") -1, 0);
 	request_timeout = zend_read_static_property(elasticsearch_client_ce, "request_timeout", sizeof("request_timeout") -1, 0);
-
+/*
     // make request url
 	if((zv_id == NULL)) {
 		request_url = strpprintf(0, "http://%s:%d/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type));
@@ -116,6 +116,7 @@ PHP_METHOD(elasticsearch_client, add) {
         zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params exists error argv");
 		RETURN_FALSE;
     }
+*/
 
 	zend_string_free(request_url);
 /*
