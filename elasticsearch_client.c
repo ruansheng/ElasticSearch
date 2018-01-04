@@ -96,7 +96,7 @@ PHP_METHOD(elasticsearch_client, add) {
 	}
 
     zv_id = zend_hash_str_find(params_hash, "id", sizeof("id") - 1);
-    if(Z_TYPE_P(zv_id) != NULL && Z_TYPE_P(zv_id) == IS_LONG) {
+    if(zv_id != NULL && Z_TYPE_P(zv_id) == IS_LONG) {
         convert_to_string(zv_id);
     }
 
