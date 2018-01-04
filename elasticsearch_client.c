@@ -117,6 +117,7 @@ PHP_METHOD(elasticsearch_client, add) {
 		RETURN_FALSE;
     }
 
+/*
 	// 请求es服务
 	chunk ret;
 	ret.memory = malloc(1);
@@ -138,6 +139,8 @@ PHP_METHOD(elasticsearch_client, add) {
 	free(ret.memory);
 
 	RETURN_STR(result);
+*/
+	RETURN_TRUE;
 }
 /* }}} */
 
