@@ -22,7 +22,7 @@ PHP_METHOD(elasticsearch_client, __construct) {
 	}
 
     if (Z_TYPE_P(host) == IS_STRING) {
-		zend_update_property_string(elasticsearch_client_ce, getThis(), "host", sizeof("host") - 1, Z_STR_P(host));
+		zend_update_property_string(elasticsearch_client_ce, getThis(), "host", sizeof("host") - 1, Z_STRVAL_P(host));
 	}
 
     // deal with port field string convert to long
