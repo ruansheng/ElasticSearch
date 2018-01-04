@@ -51,6 +51,7 @@ PHP_METHOD(elasticsearch_client, add) {
     zval *zv_body;
     zval *connect_timeout;
     zval *request_timeout;
+	zend_string * request_url;
 
     // parse method args
     ZEND_PARSE_PARAMETERS_START(0, 1)
@@ -107,8 +108,6 @@ PHP_METHOD(elasticsearch_client, add) {
 	request_timeout = zend_read_static_property(elasticsearch_client_ce, "request_timeout", sizeof("request_timeout") -1, 0);
 
     // make request url
-	zend_string * request_url;
-
 	if((zv_id == NULL)) {
 		request_url = strpprintf(0, "http://%s:%d/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type));
 	} else if(Z_TYPE_P(zv_id) == IS_STRING) {
