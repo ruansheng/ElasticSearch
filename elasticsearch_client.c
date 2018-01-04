@@ -101,12 +101,13 @@ PHP_METHOD(elasticsearch_client, add) {
         convert_to_string(zv_id);
     }
 
+/*
     host = zend_read_property(elasticsearch_client_ce, getThis(), "host", sizeof("host") -1, 0, host);
 	port = zend_read_property(elasticsearch_client_ce, getThis(), "port", sizeof("port") -1, 0, port);
 
     connect_timeout = zend_read_static_property(elasticsearch_client_ce, "connect_timeout", sizeof("connect_timeout") -1, 0);
 	request_timeout = zend_read_static_property(elasticsearch_client_ce, "request_timeout", sizeof("request_timeout") -1, 0);
-/*
+
     // make request url
 	if((zv_id == NULL)) {
 		request_url = strpprintf(0, "http://%s:%d/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type));
