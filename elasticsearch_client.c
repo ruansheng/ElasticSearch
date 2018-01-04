@@ -22,7 +22,7 @@ PHP_METHOD(elasticsearch_client, __construct) {
 	}
 
     if (Z_TYPE_P(host) == IS_STRING) {
-		zend_update_property_string(elastic_search_client_ce, getThis(), "host", sizeof("host") - 1, Z_STR_P(host));
+		zend_update_property_string(elasticsearch_client_ce, getThis(), "host", sizeof("host") - 1, Z_STR_P(host));
 	}
 
     // deal with port field string convert to long
@@ -31,7 +31,7 @@ PHP_METHOD(elasticsearch_client, __construct) {
     }
 
 	if (Z_TYPE_P(port) == IS_LONG) {
-	    zend_update_property_long(elastic_search_client_ce, getThis(), "port", sizeof("port") - 1, Z_LVAL_P(port));
+	    zend_update_property_long(elasticsearch_client_ce, getThis(), "port", sizeof("port") - 1, Z_LVAL_P(port));
     }
 }
 /* }}} */
@@ -142,11 +142,11 @@ ELASTICSEARCH_STARTUP_FUNCTION(client){
     INIT_CLASS_ENTRY(ce, "ElasticSearchClient", elasticsearch_client_methods);
     elasticsearch_client_ce = zend_register_internal_class(&ce);
 
-    zend_declare_property_string(elastic_search_client_ce, "host", sizeof("host") - 1, "locaohost", ZEND_ACC_PRIVATE);
-	zend_declare_property_long(elastic_search_client_ce, "port", sizeof("port") - 1, 9023L, ZEND_ACC_PRIVATE);
-	zend_declare_property_string(elastic_search_client_ce, "message", sizeof("message") - 1, "", ZEND_ACC_PRIVATE);
-	zend_declare_property_long(elastic_search_client_ce, "connect_timeout", sizeof("connect_timeout") - 1, 1L, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC);
-	zend_declare_property_long(elastic_search_client_ce, "request_timeout", sizeof("request_timeout") - 1, 2L, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC);
+    zend_declare_property_string(elasticsearch_client_ce, "host", sizeof("host") - 1, "locaohost", ZEND_ACC_PRIVATE);
+	zend_declare_property_long(elasticsearch_client_ce, "port", sizeof("port") - 1, 9023L, ZEND_ACC_PRIVATE);
+	zend_declare_property_string(elasticsearch_client_ce, "message", sizeof("message") - 1, "", ZEND_ACC_PRIVATE);
+	zend_declare_property_long(elasticsearch_client_ce, "connect_timeout", sizeof("connect_timeout") - 1, 1L, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC);
+	zend_declare_property_long(elasticsearch_client_ce, "request_timeout", sizeof("request_timeout") - 1, 2L, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC);
 
     return SUCCESS;
 }
