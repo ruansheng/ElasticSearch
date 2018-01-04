@@ -6,6 +6,7 @@
 
 #include "php_elasticsearch.h"
 #include "elasticsearch_client.h"
+#include "utils/curllib.h"
 
 zend_class_entry *elasticsearch_client_ce;
 
@@ -40,7 +41,101 @@ PHP_METHOD(elasticsearch_client, __construct) {
 /** {{{ proto public ElasticSearchClient::add()
 */
 PHP_METHOD(elasticsearch_client, add) {
-    php_printf("ElasticSearchClient add!\n");
+    zval *params = NULL;
+    zval *host;
+	zval *port;
+    HashTable *params_hash；
+    zval *zv_id;
+    zval *zv_index;
+    zval *zv_type;
+    zval *zv_body;
+    zval *connect_timeout;
+    zval *request_timeout;
+
+    // parse method args
+    ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_ZVAL(params)
+	ZEND_PARSE_PARAMETERS_END();
+
+	if (Z_TYPE_P(params) != IS_ARRAY) {
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params must is array");
+		RETURN_FALSE;
+	}
+
+    // check and get map value by key 
+	zv_index = zend_hash_str_find(params_hash, "index", sizeof("index") - 1);
+	if(zv_index == NULL) {
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "must contain 'index' in hash params");
+		RETURN_FALSE;
+	}
+    if(Z_TYPE_P(zv_index) != IS_STRING) {
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params['index'] type must is string");
+		RETURN_FALSE;
+	}
+
+    zv_type = zend_hash_str_find(params_hash, "type", sizeof("type") - 1);
+	if(zv_type == NULL) {
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "must contain 'type' in hash params");
+		RETURN_FALSE;
+	}
+    if(Z_TYPE_P(zv_type) != IS_STRING) {
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params['type'] type must is string");
+		RETURN_FALSE;
+	}
+
+    zv_body = zend_hash_str_find(params_hash, "body", sizeof("body") - 1);
+	if(zv_body == NULL) {
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "must contain 'body' in hash params");
+		RETURN_FALSE;
+	}
+    if(Z_TYPE_P(zv_body) != IS_ARRAY) {
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params['body'] type must is array");
+		RETURN_FALSE;
+	}
+
+    zv_id = zend_hash_str_find(params_hash, "id", sizeof("id") - 1);
+    if(Z_TYPE_P(zv_id) != NULL && Z_TYPE_P(zv_id) == IS_LONG) {
+        convert_to_string(zv_id);
+    }
+
+    host = zend_read_property(elasticsearch_client_ce, getThis(), "host", sizeof("host") -1, 0, host);
+	port = zend_read_property(elasticsearch_client_ce, getThis(), "port", sizeof("port") -1, 0, port);
+
+    connect_timeout = zend_read_static_property(elasticsearch_client_ce, "connect_timeout", sizeof("connect_timeout") -1, 0);
+	request_timeout = zend_read_static_property(elasticsearch_client_ce, "request_timeout", sizeof("request_timeout") -1, 0);
+
+    // make request url
+	zend_string * request_url;
+
+	if((zv_id == NULL)) {
+		request_url = strpprintf(0, "http://%s:%d/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type));
+	} else if(Z_TYPE_P(zv_id) == IS_STRING) {
+		request_url = strpprintf(0, "http://%s:%d/%s/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type), Z_STRVAL_P(zv_id));
+	} else {
+        zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params exists error argv");
+		RETURN_FALSE;
+    }
+
+	// 请求es服务
+	chunk ret;
+	ret.memory = malloc(1);
+	ret.size = 0;
+
+	smart_str buf = {0};
+	zend_long options = 0;
+	php_json_encode(&buf, zv_body, (int)options);
+
+	if(!libcurlPost(ZSTR_VAL(curl_url), ZSTR_VAL(buf.s), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) {
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "curl request error");
+		RETURN_FALSE;
+	}
+
+	zend_string *result = strpprintf(0, "%s", ret.memory);
+
+	// free
+	free(ret.memory);
+
+	RETURN_STR(result);
 }
 /* }}} */
 
