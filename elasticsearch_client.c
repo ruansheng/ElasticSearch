@@ -171,7 +171,10 @@ PHP_METHOD(elasticsearch_client, search) {
 /** {{{ proto public ElasticSearchClient::getMessage()
 */
 PHP_METHOD(elasticsearch_client, getMessage) {
-    php_printf("ElasticSearchClient getMessage!\n");
+    zval *zv_message;
+	zv_message = zend_read_property(elasticsearch_client_ce, getThis(), "message", sizeof("message") -1, 0, zv_message);
+
+	RETURN_STR(Z_STR_P(zv_message));
 }
 /* }}} */
 
