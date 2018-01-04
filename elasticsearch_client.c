@@ -15,13 +15,6 @@ PHP_METHOD(elasticsearch_client, __construct) {
     zval *host;
 	zval *port;
 
-/*
-	// parse method args
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "zz", &host, &port) == FAILURE) {
-		return;
-	}
-*/
-
     // parse method args
     ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
