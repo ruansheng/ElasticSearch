@@ -63,6 +63,7 @@ PHP_METHOD(elasticsearch_client, add) {
 		RETURN_FALSE;
 	}
 
+/*
 	params_hash = Z_ARRVAL_P(params);
 
     // check and get map value by key 
@@ -101,7 +102,6 @@ PHP_METHOD(elasticsearch_client, add) {
         convert_to_string(zv_id);
     }
 
-/*
     host = zend_read_property(elasticsearch_client_ce, getThis(), "host", sizeof("host") -1, 0, host);
 	port = zend_read_property(elasticsearch_client_ce, getThis(), "port", sizeof("port") -1, 0, port);
 
