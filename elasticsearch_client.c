@@ -54,7 +54,7 @@ PHP_METHOD(elasticsearch_client, add) {
 	zend_string * request_url;
 
     // parse method args
-    ZEND_PARSE_PARAMETERS_START(0, 1)
+    ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(params)
 	ZEND_PARSE_PARAMETERS_END();
 
