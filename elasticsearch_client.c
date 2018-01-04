@@ -127,6 +127,7 @@ PHP_METHOD(elasticsearch_client, add) {
 	php_json_encode(&buf, zv_body, (int)options);
 
 	if(!libcurlPost(ZSTR_VAL(request_url), ZSTR_VAL(buf.s), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) {
+		free(ret.memory);
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "curl request error");
 		RETURN_FALSE;
 	}
