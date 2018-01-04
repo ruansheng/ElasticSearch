@@ -12,14 +12,22 @@ zend_class_entry *elasticsearch_client_ce;
 /** {{{ proto public ElasticSearchClient::__construct()
 */
 PHP_METHOD(elasticsearch_client, __construct) {
-    php_printf("ElasticSearchClient __construct!");
     zval *host;
 	zval *port;
 
+/*
 	// parse method args
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "zz", &host, &port) == FAILURE) {
 		return;
 	}
+*/
+
+    // parse method args
+    ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(host)
+		Z_PARAM_ZVAL(port)
+	ZEND_PARSE_PARAMETERS_END();
 
     if (Z_TYPE_P(host) == IS_STRING) {
 		zend_update_property_string(elasticsearch_client_ce, getThis(), "host", sizeof("host") - 1, Z_STRVAL_P(host));
@@ -39,56 +47,56 @@ PHP_METHOD(elasticsearch_client, __construct) {
 /** {{{ proto public ElasticSearchClient::add()
 */
 PHP_METHOD(elasticsearch_client, add) {
-    php_printf("ElasticSearchClient add!");
+    php_printf("ElasticSearchClient add!\n");
 }
 /* }}} */
 
 /** {{{ proto public ElasticSearchClient::remove()
 */
 PHP_METHOD(elasticsearch_client, remove) {
-    php_printf("ElasticSearchClient remove!");
+    php_printf("ElasticSearchClient remove!\n");
 }
 /* }}} */
 
 /** {{{ proto public ElasticSearchClient::update()
 */
 PHP_METHOD(elasticsearch_client, update) {
-    php_printf("ElasticSearchClient update!");
+    php_printf("ElasticSearchClient update!\n");
 }
 /* }}} */
 
 /** {{{ proto public ElasticSearchClient::get()
 */
 PHP_METHOD(elasticsearch_client, get) {
-    php_printf("ElasticSearchClient get!");
+    php_printf("ElasticSearchClient get!\n");
 }
 /* }}} */
 
 /** {{{ proto public ElasticSearchClient::search()
 */
 PHP_METHOD(elasticsearch_client, search) {
-    php_printf("ElasticSearchClient search!");
+    php_printf("ElasticSearchClient search!\n");
 }
 /* }}} */
 
 /** {{{ proto public ElasticSearchClient::getMessage()
 */
 PHP_METHOD(elasticsearch_client, getMessage) {
-    php_printf("ElasticSearchClient getMessage!");
+    php_printf("ElasticSearchClient getMessage!\n");
 }
 /* }}} */
 
 /** {{{ proto public ElasticSearchClient::setConnectTimeout()
 */
 PHP_METHOD(elasticsearch_client, setConnectTimeout) {
-    php_printf("ElasticSearchClient setConnectTimeout!");
+    php_printf("ElasticSearchClient setConnectTimeout!\n");
 }
 /* }}} */
 
 /** {{{ proto public ElasticSearchClient::setRequestTimeout()
 */
 PHP_METHOD(elasticsearch_client, setRequestTimeout) {
-    php_printf("ElasticSearchClient setRequestTimeout!");
+    php_printf("ElasticSearchClient setRequestTimeout!\n");
 }
 /* }}} */
 
