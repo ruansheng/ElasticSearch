@@ -44,7 +44,7 @@ PHP_METHOD(elasticsearch_client, add) {
     zval *params = NULL;
     zval *host;
 	zval *port;
-    HashTable *params_hash；
+    HashTable *params_hash;
     zval *zv_id;
     zval *zv_index;
     zval *zv_type;
@@ -61,6 +61,8 @@ PHP_METHOD(elasticsearch_client, add) {
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params must is array");
 		RETURN_FALSE;
 	}
+
+	params_hash = Z_ARRVAL_P(params);
 
     // check and get map value by key 
 	zv_index = zend_hash_str_find(params_hash, "index", sizeof("index") - 1);
