@@ -60,6 +60,8 @@ if test "$PHP_ELASTICSEARCH" != "no"; then
   dnl PHP_SUBST(ELASTICSEARCH_SHARED_LIBADD)
 
   PHP_NEW_EXTENSION(elasticsearch, 
-    elasticsearch.c elasticsearch_client.c utils/curllib.c, $ext_shared,, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+    elasticsearch.c \
+    elasticsearch_client.c \
+    utils/curllib.c, $ext_shared,, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
   PHP_ADD_BUILD_DIR([$ext_builddir/utils])
 fi
