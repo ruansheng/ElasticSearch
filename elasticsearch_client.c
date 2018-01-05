@@ -54,16 +54,17 @@ PHP_METHOD(elasticsearch_client, add) {
 	zend_string * request_url;
 
     // parse method args
+	/*
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "z", &params) == FAILURE) {
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "this method must hava a params");
 		RETURN_FALSE;
 	}
+	*/
 
-/*
     ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ARRAY(params)
+		//Z_PARAM_ARRAY(params)
+		Z_PARAM_ZVAL(params)
 	ZEND_PARSE_PARAMETERS_END();
-*/
 
 	if (Z_TYPE_P(params) != IS_ARRAY) {
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params must is array");
