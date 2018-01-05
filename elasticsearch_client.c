@@ -188,7 +188,10 @@ PHP_METHOD(elasticsearch_client, getMessage) {
     zval *zv_message;
 	zv_message = zend_read_property(elasticsearch_client_ce, getThis(), "message", sizeof("message") -1, 0, zv_message);
 
-	RETURN_STR(Z_STR_P(zv_message));
+	//RETURN_STR(Z_STR_P(zv_message));
+	zend_string *message;
+	message = Z_STR_P(zv_message);
+	RETURN_STR(message);
 }
 /* }}} */
 
