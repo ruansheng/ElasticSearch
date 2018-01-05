@@ -73,6 +73,7 @@ PHP_METHOD(elasticsearch_client, add) {
 
 	params_hash = Z_ARRVAL_P(params);
 
+/*
     // check and get map value by key 
 	zv_index = zend_hash_str_find(params_hash, "index", sizeof("index") - 1);
 	if(zv_index == NULL) {
@@ -126,6 +127,7 @@ PHP_METHOD(elasticsearch_client, add) {
     }
 
 	zend_string_free(request_url);
+	*/
 /*
 	// 请求es服务
 	chunk ret;
