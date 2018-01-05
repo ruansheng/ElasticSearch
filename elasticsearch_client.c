@@ -63,10 +63,8 @@ PHP_METHOD(elasticsearch_client, add) {
 		RETURN_FALSE;
 	}
 
-	//convert_to_array(params);
 	params_hash = Z_ARRVAL_P(params);
 
-/*
     // check and get map value by key 
 	zv_index = zend_hash_str_find(params_hash, "index", sizeof("index") - 1);
 	if(zv_index == NULL) {
@@ -118,7 +116,6 @@ PHP_METHOD(elasticsearch_client, add) {
         zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params exists error argv");
 		RETURN_FALSE;
     }
-*/
 
 	zend_string_free(request_url);
 /*
