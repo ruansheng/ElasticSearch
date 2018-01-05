@@ -125,9 +125,8 @@ PHP_METHOD(elasticsearch_client, add) {
         zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params exists error argv");
 		RETURN_FALSE;
     }
-
+*/
 	zend_string_free(request_url);
-	*/
 /*
 	// 请求es服务
 	chunk ret;
