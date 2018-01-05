@@ -63,8 +63,8 @@ PHP_METHOD(elasticsearch_client, add) {
 		RETURN_FALSE;
 	}
 
-	params_hash = convert_to_array(params);
-	//params_hash = Z_ARRVAL_P(params);
+	convert_to_array(params);
+	params_hash = Z_ARRVAL_P(params);
 
 /*
     // check and get map value by key 
