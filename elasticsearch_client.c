@@ -55,7 +55,7 @@ PHP_METHOD(elasticsearch_client, add) {
 
     // parse method args
     ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(params)
+		Z_PARAM_ARRAY(params)
 	ZEND_PARSE_PARAMETERS_END();
 
 	if (Z_TYPE_P(params) != IS_ARRAY) {
@@ -63,7 +63,7 @@ PHP_METHOD(elasticsearch_client, add) {
 		RETURN_FALSE;
 	}
 
-	convert_to_array(params);
+	//convert_to_array(params);
 	params_hash = Z_ARRVAL_P(params);
 
 /*
