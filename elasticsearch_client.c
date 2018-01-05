@@ -182,9 +182,9 @@ PHP_METHOD(elasticsearch_client, search) {
 }
 /* }}} */
 
-/** {{{ proto public ElasticSearchClient::getMessage()
+/** {{{ proto public ElasticSearchClient::getMessages()
 */
-PHP_METHOD(elasticsearch_client, getMessage) {
+PHP_METHOD(elasticsearch_client, getMessages) {
     zval *zv_message;
 	zv_message = zend_read_property(elasticsearch_client_ce, getThis(), "message", sizeof("message") -1, 0, zv_message);
 
@@ -250,7 +250,7 @@ zend_function_entry elasticsearch_client_methods[] = {
         PHP_ME(elasticsearch_client, update, arginfo_client_update, ZEND_ACC_PUBLIC)
         PHP_ME(elasticsearch_client, get, arginfo_client_get, ZEND_ACC_PUBLIC)
         PHP_ME(elasticsearch_client, search, arginfo_client_search, ZEND_ACC_PUBLIC)
-        PHP_ME(elasticsearch_client, getMessage, NULL, ZEND_ACC_PUBLIC)
+        PHP_ME(elasticsearch_client, getMessages, NULL, ZEND_ACC_PUBLIC)
         PHP_ME(elasticsearch_client, setConnectTimeout, arginfo_client_connect_timeout, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
         PHP_ME(elasticsearch_client, setRequestTimeout, arginfo_client_request_timeout, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
         {NULL, NULL, NULL}
