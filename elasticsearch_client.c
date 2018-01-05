@@ -55,7 +55,7 @@ PHP_METHOD(elasticsearch_client, add) {
 
     // parse method args
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "z", &params) == FAILURE) {
-		zend_update_property_string(elastic_search_client_ce,  getThis(), "message", sizeof("message") - 1, "this method must hava a params");
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "this method must hava a params");
 		RETURN_FALSE;
 	}
 
