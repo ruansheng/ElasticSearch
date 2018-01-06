@@ -550,7 +550,7 @@ ELASTICSEARCH_STARTUP_FUNCTION(client){
     elasticsearch_client_ce = zend_register_internal_class(&ce);
 
     zend_declare_property_string(elasticsearch_client_ce, "host", sizeof("host") - 1, "locaohost", ZEND_ACC_PRIVATE);
-	zend_declare_property_long(elasticsearch_client_ce, "port", sizeof("port") - 1, 9023L, ZEND_ACC_PRIVATE);
+	zend_declare_property_long(elasticsearch_client_ce, "port", sizeof("port") - 1, 9200L, ZEND_ACC_PRIVATE);
 	zend_declare_property_string(elasticsearch_client_ce, "message", sizeof("message") - 1, "", ZEND_ACC_PRIVATE);
 	zend_declare_property_long(elasticsearch_client_ce, "connect_timeout", sizeof("connect_timeout") - 1, 1000L, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC);
 	zend_declare_property_long(elasticsearch_client_ce, "request_timeout", sizeof("request_timeout") - 1, 2000L, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC);
