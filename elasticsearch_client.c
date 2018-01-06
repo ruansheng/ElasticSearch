@@ -182,7 +182,7 @@ PHP_METHOD(elasticsearch_client, search) {
 
 /** {{{ proto public ElasticSearchClient::getMessage()
 */
-PHP_METHOD(elasticsearch_client, getMessage {
+PHP_METHOD(elasticsearch_client, getMessage) {
     zval *zv_message;
 	zv_message = zend_read_property(elasticsearch_client_ce, getThis(), "message", sizeof("message") -1, 0, zv_message);
 
