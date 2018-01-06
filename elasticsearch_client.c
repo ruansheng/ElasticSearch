@@ -477,7 +477,7 @@ PHP_METHOD(elasticsearch_client, setConnectTimeout) {
 		Z_PARAM_LONG(connect_timeout)
 	ZEND_PARSE_PARAMETERS_END();
 
-	zend_update_static_property_long(elastic_search_client_ce, "connect_timeout", sizeof("connect_timeout") - 1, connect_timeout);
+	zend_update_static_property_long(elasticsearch_client_ce, "connect_timeout", sizeof("connect_timeout") - 1, connect_timeout);
 
 	RETURN_TRUE;
 }
@@ -493,7 +493,7 @@ PHP_METHOD(elasticsearch_client, setRequestTimeout) {
 		Z_PARAM_LONG(request_timeout)
 	ZEND_PARSE_PARAMETERS_END();
 
-	zend_update_static_property_long(elastic_search_client_ce, "request_timeout", sizeof("request_timeout") - 1, request_timeout);
+	zend_update_static_property_long(elasticsearch_client_ce, "request_timeout", sizeof("request_timeout") - 1, request_timeout);
 
 	RETURN_TRUE;
 }
