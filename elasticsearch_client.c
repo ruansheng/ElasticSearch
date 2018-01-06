@@ -10,7 +10,7 @@
 
 zend_class_entry *elasticsearch_client_ce;
 
-/** {{{ proto public ElasticSearchClient::__construct()
+/** {{{ proto public ElasticSearchClient::__construct([string host] [,string|int port])
 */
 PHP_METHOD(elasticsearch_client, __construct) {
     zval *host;
@@ -38,7 +38,7 @@ PHP_METHOD(elasticsearch_client, __construct) {
 }
 /* }}} */
 
-/** {{{ proto public ElasticSearchClient::add()
+/** {{{ proto public ElasticSearchClient::add(array params)
 */
 PHP_METHOD(elasticsearch_client, add) {
     zval *params = NULL;
@@ -145,7 +145,7 @@ PHP_METHOD(elasticsearch_client, add) {
 }
 /* }}} */
 
-/** {{{ proto public ElasticSearchClient::remove()
+/** {{{ proto public ElasticSearchClient::remove(array params)
 */
 PHP_METHOD(elasticsearch_client, remove) {
     zval *params = NULL;
@@ -220,7 +220,7 @@ PHP_METHOD(elasticsearch_client, remove) {
 }
 /* }}} */
 
-/** {{{ proto public ElasticSearchClient::update()
+/** {{{ proto public ElasticSearchClient::update(array params)
 */
 PHP_METHOD(elasticsearch_client, update) {
     zval *params = NULL;
@@ -306,7 +306,7 @@ PHP_METHOD(elasticsearch_client, update) {
 }
 /* }}} */
 
-/** {{{ proto public ElasticSearchClient::get()
+/** {{{ proto public ElasticSearchClient::get(array params)
 */
 PHP_METHOD(elasticsearch_client, get) {
     zval *params = NULL;
@@ -381,7 +381,7 @@ PHP_METHOD(elasticsearch_client, get) {
 }
 /* }}} */
 
-/** {{{ proto public ElasticSearchClient::search()
+/** {{{ proto public ElasticSearchClient::search(array params)
 */
 PHP_METHOD(elasticsearch_client, search) {
     zval *params = NULL;
@@ -467,17 +467,35 @@ PHP_METHOD(elasticsearch_client, getMessage) {
 }
 /* }}} */
 
-/** {{{ proto public ElasticSearchClient::setConnectTimeout()
+/** {{{ proto public ElasticSearchClient::setConnectTimeout(long connect_timeout)
 */
 PHP_METHOD(elasticsearch_client, setConnectTimeout) {
-    php_printf("ElasticSearchClient setConnectTimeout!\n");
+    zend_long connect_timeout = NULL;
+	
+	// parse method args
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(connect_timeout)
+	ZEND_PARSE_PARAMETERS_END();
+
+	zend_update_static_property_long(elastic_search_client_ce, "connect_timeout", sizeof("connect_timeout") - 1, connect_timeout);
+
+	RETURN_TRUE;
 }
 /* }}} */
 
-/** {{{ proto public ElasticSearchClient::setRequestTimeout()
+/** {{{ proto public ElasticSearchClient::setRequestTimeout(long request_timeout)
 */
 PHP_METHOD(elasticsearch_client, setRequestTimeout) {
-    php_printf("ElasticSearchClient setRequestTimeout!\n");
+    zend_long request_timeout = NULL;
+	
+	// parse method args
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(request_timeout)
+	ZEND_PARSE_PARAMETERS_END();
+
+	zend_update_static_property_long(elastic_search_client_ce, "request_timeout", sizeof("request_timeout") - 1, request_timeout);
+
+	RETURN_TRUE;
 }
 /* }}} */
 
