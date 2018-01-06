@@ -198,6 +198,8 @@ PHP_METHOD(elasticsearch_client, getMessages) {
 	message = Z_STR_P(zv_message);
 	RETURN_STR(message);
 	*/
+	php_var_dump(zv_message);
+	
 	RETURN_TRUE;
 }
 /* }}} */
