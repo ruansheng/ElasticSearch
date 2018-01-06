@@ -54,13 +54,6 @@ PHP_METHOD(elasticsearch_client, add) {
 	zend_string * request_url;
 
     // parse method args
-	/*
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "z", &params) == FAILURE) {
-		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "this method must hava a params");
-		RETURN_FALSE;
-	}
-	*/
-
     ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ARRAY(params)
 	ZEND_PARSE_PARAMETERS_END();
@@ -155,7 +148,75 @@ PHP_METHOD(elasticsearch_client, add) {
 /** {{{ proto public ElasticSearchClient::remove()
 */
 PHP_METHOD(elasticsearch_client, remove) {
-    php_printf("ElasticSearchClient remove!\n");
+    zval *params = NULL;
+    zval *host;
+	zval *port;
+    HashTable *params_hash;
+    zval *zv_id;
+    zval *zv_index;
+    zval *zv_type;
+    zval *connect_timeout;
+    zval *request_timeout;
+	zend_string * request_url;
+
+    // parse method args
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(params)
+	ZEND_PARSE_PARAMETERS_END();
+
+	if (Z_TYPE_P(params) != IS_ARRAY) {
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params must is array");
+		RETURN_FALSE;
+	}
+
+	params_hash = Z_ARRVAL_P(params);
+
+    // check and get map value by key 
+	zv_index = zend_hash_str_find(params_hash, "index", sizeof("index") - 1);
+	if(zv_index == NULL) {
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "must contain 'index' in hash params");
+		RETURN_FALSE;
+	}
+    if(Z_TYPE_P(zv_index) != IS_STRING) {
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params['index'] type must is string");
+		RETURN_FALSE;
+	}
+
+    zv_type = zend_hash_str_find(params_hash, "type", sizeof("type") - 1);
+	if(zv_type == NULL) {
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "must contain 'type' in hash params");
+		RETURN_FALSE;
+	}
+    if(Z_TYPE_P(zv_type) != IS_STRING) {
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params['type'] type must is string");
+		RETURN_FALSE;
+	}
+
+    zv_id = zend_hash_str_find(params_hash, "id", sizeof("id") - 1);
+    if(zv_id == NULL) {
+        zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "must contain 'id' in hash params");
+		RETURN_FALSE;
+    }
+    if(Z_TYPE_P(zv_id) == IS_LONG) {
+        convert_to_string(zv_id);
+    }
+	if(Z_TYPE_P(zv_id) != IS_STRING) {
+		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params['id'] type must is string");
+		RETURN_FALSE;
+	}
+
+    host = zend_read_property(elasticsearch_client_ce, getThis(), "host", sizeof("host") -1, 0, host);
+	port = zend_read_property(elasticsearch_client_ce, getThis(), "port", sizeof("port") -1, 0, port);
+
+    connect_timeout = zend_read_static_property(elasticsearch_client_ce, "connect_timeout", sizeof("connect_timeout") -1, 0);
+	request_timeout = zend_read_static_property(elasticsearch_client_ce, "request_timeout", sizeof("request_timeout") -1, 0);
+
+	// make request url
+	request_url = strpprintf(0, "http://%s:%d/%s/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type), Z_STRVAL_P(zv_id));
+
+	zend_string_free(request_url);
+
+	RETURN_TRUE;
 }
 /* }}} */
 
