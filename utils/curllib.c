@@ -38,8 +38,8 @@ bool libcurlGet(const char *url, chunk *ret, long connect_timeout, long request_
     curl_easy_setopt(curl_handle, CURLOPT_URL, url);
     curl_easy_setopt(curl_handle, CURLOPT_HTTPHEADER, headers);
 
-    curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT, connect_timeout);
-    curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT, request_timeout);
+    curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT_MS, connect_timeout);
+    curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT_MS, request_timeout);
 
     curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, writeMemoryCallback);
     curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, (void *)ret);
@@ -76,8 +76,8 @@ bool libcurlPost(const char *url, const char *postdata, chunk *ret, long connect
     curl_easy_setopt(curl_handle, CURLOPT_URL, url);
     curl_easy_setopt(curl_handle, CURLOPT_HTTPHEADER, headers);
 
-    curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT, connect_timeout);
-    curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT, request_timeout);
+    curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT_MS, connect_timeout);
+    curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT_MS, request_timeout);
 
     curl_easy_setopt(curl_handle, CURLOPT_POSTFIELDS, postdata);
 
@@ -115,8 +115,8 @@ bool libcurlDelete(const char *url, chunk *ret, long connect_timeout, long reque
     curl_easy_setopt(curl_handle, CURLOPT_URL, url);
     curl_easy_setopt(curl_handle, CURLOPT_HTTPHEADER, headers);
 
-    curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT, connect_timeout);
-    curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT, request_timeout);
+    curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT_MS, connect_timeout);
+    curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT_MS, request_timeout);
 
     curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, writeMemoryCallback);
     curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, (void *)ret);
