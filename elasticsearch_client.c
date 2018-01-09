@@ -145,7 +145,7 @@ PHP_METHOD(elasticsearch_client, add) {
 
 	//php_var_dump(&call_func_ret);
 
-	if(!libcurlPost(ZSTR_VAL(request_url), Z_LVAL_P(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) {
+	if(!libcurlPost(ZSTR_VAL(request_url), Z_LVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) {
 		free(ret.memory);
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "curl request error");
 		zend_string_free(request_url);
