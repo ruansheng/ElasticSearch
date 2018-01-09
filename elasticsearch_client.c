@@ -134,7 +134,7 @@ PHP_METHOD(elasticsearch_client, add) {
 	zval func_params[1];
 
 	ZVAL_STRING(&call_func_name, "json_encode");
-	ZVAL_ZVAL(&func_params[0], zv_body);
+	ZVAL_ZVAL(&func_params[0], zv_body, 0, 0);
 	if(SUCCESS != call_user_function(EG(function_table), NULL, &call_func_name, &call_func_ret, param_count, func_params)) {
 		RETURN_FALSE;
 	}
