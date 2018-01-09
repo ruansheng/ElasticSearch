@@ -122,16 +122,6 @@ PHP_METHOD(elasticsearch_client, add) {
 	ret.memory = malloc(1);
 	ret.size = 0;
 
-	/*
-	chunk ret;
-	ret.memory = malloc(1);
-	ret.size = 0;
-
-	smart_str buf = {0};
-	zend_long options = 0;
-	php_json_encode(&buf, zv_body, (int)options);
-	*/
-
 	zval call_func_name;
 	zval call_func_ret;
 	uint32_t param_count = 1;
@@ -156,16 +146,15 @@ PHP_METHOD(elasticsearch_client, add) {
 		RETURN_FALSE;
 	}
 
-	zend_string *result = strpprintf(0, "%s", ret.memory);
+	//zend_string *result = strpprintf(0, "%s", ret.memory);
+	//strncpy();
 
 	// free
 	free(ret.memory);
 	zend_string_free(request_url);
 	zval_ptr_dtor(&call_func_name);
 	
-	RETURN_STRING(result);
-
-//	RETURN_TRUE;
+	RETURN_STRING(ret.memory);
 }
 /* }}} */
 
