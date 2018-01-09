@@ -133,6 +133,7 @@ PHP_METHOD(elasticsearch_client, add) {
 		free(ret.memory);
 		zend_string_free(request_url);
 		zval_ptr_dtor(&call_func_name);
+		zval_ptr_dtor(&call_func_ret);
 		RETURN_FALSE;
 	}
 
@@ -143,6 +144,7 @@ PHP_METHOD(elasticsearch_client, add) {
 		free(ret.memory);
 		zend_string_free(request_url);
 		zval_ptr_dtor(&call_func_name);
+		zval_ptr_dtor(&call_func_ret);
 		RETURN_FALSE;
 	}
 
