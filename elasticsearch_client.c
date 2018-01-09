@@ -148,15 +148,15 @@ PHP_METHOD(elasticsearch_client, add) {
 		RETURN_FALSE;
 	}
 
-	//zend_string *result = strpprintf(0, "%s", ret.memory);
-	//strncpy();
+	zend_string *result = strpprintf(0, "%s", ret.memory);
 
 	// free
 	free(ret.memory);
 	zend_string_free(request_url);
 	zval_ptr_dtor(&call_func_name);
+	zval_ptr_dtor(&call_func_ret);
 	
-	RETURN_STRING(ret.memory);
+	RETURN_NEW_STR(result);
 }
 /* }}} */
 
