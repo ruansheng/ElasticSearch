@@ -140,15 +140,19 @@ PHP_METHOD(elasticsearch_client, add) {
 	ZVAL_STRING(&call_func_name, "json_encode");
 	ZVAL_ZVAL(&func_params[0], zv_body, 0, 0);
 	if(SUCCESS != call_user_function(EG(function_table), NULL, &call_func_name, &call_func_ret, param_count, func_params)) {
+		free(ret.memory);
+		zend_string_free(request_url);
+		zval_ptr_dtor(&call_func_name);
 		RETURN_FALSE;
 	}
 
 	//php_var_dump(&call_func_ret);
 
 	if(!libcurlPost(ZSTR_VAL(request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) {
-		free(ret.memory);
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "curl request error");
+		free(ret.memory);
 		zend_string_free(request_url);
+		zval_ptr_dtor(&call_func_name);
 		RETURN_FALSE;
 	}
 
@@ -157,6 +161,8 @@ PHP_METHOD(elasticsearch_client, add) {
 	// free
 	free(ret.memory);
 	zend_string_free(request_url);
+	zval_ptr_dtor(&call_func_name);
+	
 	RETURN_STR(result);
 
 //	RETURN_TRUE;
