@@ -117,9 +117,8 @@ PHP_METHOD(elasticsearch_client, add) {
 		RETURN_FALSE;
     }
 
-	zend_string_free(request_url);
-/*
 	// 请求es服务
+	/*
 	chunk ret;
 	ret.memory = malloc(1);
 	ret.size = 0;
@@ -127,10 +126,25 @@ PHP_METHOD(elasticsearch_client, add) {
 	smart_str buf = {0};
 	zend_long options = 0;
 	php_json_encode(&buf, zv_body, (int)options);
+	*/
 
+	zval call_func_name;
+	zval call_func_ret;
+	uint32_t param_count = 1;
+	zval func_params[1];
+
+	ZVAL_STRING(&call_func_name, "json_encode");
+	ZVAL_ZVAL(&func_params[0], zv_body);
+	if(SUCCESS != call_user_function(EG(function_table), NULL, &call_func_name, &call_func_ret, param_count, func_params)) {
+		RETURN_FALSE;
+	}
+
+	php_var_dump(&call_func_ret);
+/*
 	if(!libcurlPost(ZSTR_VAL(request_url), ZSTR_VAL(buf.s), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) {
 		free(ret.memory);
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "curl request error");
+		zend_string_free(request_url);
 		RETURN_FALSE;
 	}
 
@@ -138,7 +152,7 @@ PHP_METHOD(elasticsearch_client, add) {
 
 	// free
 	free(ret.memory);
-
+	zend_string_free(request_url);
 	RETURN_STR(result);
 */
 	RETURN_TRUE;
