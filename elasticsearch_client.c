@@ -163,7 +163,7 @@ PHP_METHOD(elasticsearch_client, add) {
 	zend_string_free(request_url);
 	zval_ptr_dtor(&call_func_name);
 	
-	RETURN_STR(result);
+	RETURN_STRING(result);
 
 //	RETURN_TRUE;
 }
