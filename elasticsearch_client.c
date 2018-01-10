@@ -45,15 +45,15 @@ PHP_METHOD(elasticsearch_client, add) {
 	zend_string * request_url;
 	
 	// format 'request_url' and 'reques tbody'
-	es_client_add_parse(INTERNAL_FUNCTION_PARAM_PASSTHRU, request_url, zv_body);
+	es_client_add_parse(INTERNAL_FUNCTION_PARAM_PASSTHRU, &request_url, &zv_body);
 
 	// request es server
-	es_client_add_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, request_url, zv_body);
+	es_client_add_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, &request_url, &zv_body);
 }
 /* }}} */
 
 /* {{{ es_client_add_parse - ElasticSearchClient::add helper */
-PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, zend_string * request_url, zval *zv_body) 
+PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, zend_string **request_url, zval **zv_body) 
 {
 	zval *params = NULL;
     zval *host;
@@ -96,12 +96,12 @@ PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, zend_string * requ
 		RETURN_FALSE;
 	}
 
-    zv_body = zend_hash_str_find(params_hash, "body", sizeof("body") - 1);
-	if(zv_body == NULL) {
+    *zv_body = zend_hash_str_find(params_hash, "body", sizeof("body") - 1);
+	if(*zv_body == NULL) {
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "must contain 'body' in hash params");
 		RETURN_FALSE;
 	}
-    if(Z_TYPE_P(zv_body) != IS_ARRAY) {
+    if(Z_TYPE_P(*zv_body) != IS_ARRAY) {
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params['body'] type must is array");
 		RETURN_FALSE;
 	}
@@ -116,9 +116,9 @@ PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, zend_string * requ
 
     // make request url
 	if((zv_id == NULL)) {
-		request_url = strpprintf(0, "http://%s:%d/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type));
+		*request_url = strpprintf(0, "http://%s:%d/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type));
 	} else if(Z_TYPE_P(zv_id) == IS_STRING) {
-		request_url = strpprintf(0, "http://%s:%d/%s/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type), Z_STRVAL_P(zv_id));
+		*request_url = strpprintf(0, "http://%s:%d/%s/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type), Z_STRVAL_P(zv_id));
 	} else {
         zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params exists error argv");
 		RETURN_FALSE;
@@ -127,7 +127,7 @@ PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, zend_string * requ
 /* }}} */
 
 /* {{{ es_client_add_parse - ElasticSearchClient::add helper */
-PHPAPI void es_client_add_request(INTERNAL_FUNCTION_PARAMETERS, zend_string * request_url, zval *zv_body) 
+PHPAPI void es_client_add_request(INTERNAL_FUNCTION_PARAMETERS, zend_string **request_url, zval **zv_body) 
 {
 	zval *connect_timeout;
     zval *request_timeout;    
