@@ -62,7 +62,6 @@ PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, zend_string **requ
     zval *zv_id;
     zval *zv_index;
     zval *zv_type;
-	//zend_string *tmp_request_url;
 
     // parse method args
     ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -153,8 +152,6 @@ PHPAPI void es_client_add_request(INTERNAL_FUNCTION_PARAMETERS, zend_string **re
 	if(SUCCESS != call_user_function(EG(function_table), NULL, &call_func_name, &call_func_ret, param_count, func_params)) {
 		goto out;
 	}
-
-	//php_var_dump(&call_func_ret);
 
 	if(!libcurlPost(ZSTR_VAL(*request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) {
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "curl request error");
