@@ -146,14 +146,14 @@ PHPAPI void es_client_add_request(INTERNAL_FUNCTION_PARAMETERS, zend_string **re
 	zval func_params[1];
 
 	ZVAL_STRING(&call_func_name, "json_encode");
-	ZVAL_ZVAL(&func_params[0], zv_body, 0, 0);
+	ZVAL_ZVAL(&func_params[0], *zv_body, 0, 0);
 	if(SUCCESS != call_user_function(EG(function_table), NULL, &call_func_name, &call_func_ret, param_count, func_params)) {
 		goto out;
 	}
 
 	//php_var_dump(&call_func_ret);
 
-	if(!libcurlPost(ZSTR_VAL(request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) {
+	if(!libcurlPost(ZSTR_VAL(*request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) {
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "curl request error");
 		goto out;
 	}
