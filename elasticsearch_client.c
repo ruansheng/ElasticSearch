@@ -41,17 +41,27 @@ PHP_METHOD(elasticsearch_client, __construct) {
 /** {{{ proto public ElasticSearchClient::add(array params)
 */
 PHP_METHOD(elasticsearch_client, add) {
-    zval *params = NULL;
+	zval *zv_body;
+	zend_string * request_url;
+	
+	// format 'request_url' and 'reques tbody'
+	es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, request_url, zv_body);
+
+	// request es server
+	es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, request_url, zv_body);
+}
+/* }}} */
+
+/* {{{ es_client_add_parse - ElasticSearchClient::add helper */
+PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, zend_string * request_url, zval *zv_body) 
+{
+	zval *params = NULL;
     zval *host;
 	zval *port;
     HashTable *params_hash;
     zval *zv_id;
     zval *zv_index;
     zval *zv_type;
-    zval *zv_body;
-    zval *connect_timeout;
-    zval *request_timeout;
-	zend_string * request_url;
 
     // parse method args
     ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -104,9 +114,6 @@ PHP_METHOD(elasticsearch_client, add) {
     host = zend_read_property(elasticsearch_client_ce, getThis(), "host", sizeof("host") -1, 0, host);
 	port = zend_read_property(elasticsearch_client_ce, getThis(), "port", sizeof("port") -1, 0, port);
 
-    connect_timeout = zend_read_static_property(elasticsearch_client_ce, "connect_timeout", sizeof("connect_timeout") -1, 0);
-	request_timeout = zend_read_static_property(elasticsearch_client_ce, "request_timeout", sizeof("request_timeout") -1, 0);
-
     // make request url
 	if((zv_id == NULL)) {
 		request_url = strpprintf(0, "http://%s:%d/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type));
@@ -116,6 +123,17 @@ PHP_METHOD(elasticsearch_client, add) {
         zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params exists error argv");
 		RETURN_FALSE;
     }
+}
+/* }}} */
+
+/* {{{ es_client_add_parse - ElasticSearchClient::add helper */
+PHPAPI void es_client_add_request(INTERNAL_FUNCTION_PARAMETERS, zend_string * request_url, zval *zv_body) 
+{
+	zval *connect_timeout;
+    zval *request_timeout;    
+
+	connect_timeout = zend_read_static_property(elasticsearch_client_ce, "connect_timeout", sizeof("connect_timeout") -1, 0);
+	request_timeout = zend_read_static_property(elasticsearch_client_ce, "request_timeout", sizeof("request_timeout") -1, 0);
 
 	// 请求es服务
 	chunk ret;
@@ -130,22 +148,14 @@ PHP_METHOD(elasticsearch_client, add) {
 	ZVAL_STRING(&call_func_name, "json_encode");
 	ZVAL_ZVAL(&func_params[0], zv_body, 0, 0);
 	if(SUCCESS != call_user_function(EG(function_table), NULL, &call_func_name, &call_func_ret, param_count, func_params)) {
-		free(ret.memory);
-		zend_string_free(request_url);
-		zval_ptr_dtor(&call_func_name);
-		zval_ptr_dtor(&call_func_ret);
-		RETURN_FALSE;
+		goto out;
 	}
 
 	//php_var_dump(&call_func_ret);
 
 	if(!libcurlPost(ZSTR_VAL(request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) {
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "curl request error");
-		free(ret.memory);
-		zend_string_free(request_url);
-		zval_ptr_dtor(&call_func_name);
-		zval_ptr_dtor(&call_func_ret);
-		RETURN_FALSE;
+		goto out;
 	}
 
 	zend_string *result = strpprintf(0, "%s", ret.memory);
@@ -157,6 +167,13 @@ PHP_METHOD(elasticsearch_client, add) {
 	zval_ptr_dtor(&call_func_ret);
 	
 	RETURN_NEW_STR(result);
+
+out:
+	free(ret.memory);
+	zend_string_free(request_url);
+	zval_ptr_dtor(&call_func_name);
+	zval_ptr_dtor(&call_func_ret);
+	RETURN_FALSE;
 }
 /* }}} */
 
