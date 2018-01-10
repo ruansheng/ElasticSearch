@@ -8,6 +8,15 @@
 #include "elasticsearch_client.h"
 #include "utils/curllib.h"
 
+static inline void trace(const char *file, int line, const char* function, const char *fmt, ...) {
+    fprintf(stderr, "%s(%s:%d) - ", function, file, line);
+    va_list args;
+    va_start(args, fmt);
+    vfprintf(stderr, fmt, args);
+    fprintf(stderr, "\n");
+    va_end(args);
+}
+
 zend_class_entry *elasticsearch_client_ce;
 
 /** {{{ proto public ElasticSearchClient::__construct([string host] [,string|int port])
@@ -124,7 +133,9 @@ PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, zend_string **requ
 		RETURN_FALSE;
     }
 
-	//*request_url = tmp_request_url;
+#if RS_DEBUG == 1
+	TRACE("%s", Z_STRVAL_P(*request_url))
+#endif	
 }
 /* }}} */
 
