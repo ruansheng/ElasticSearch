@@ -62,7 +62,7 @@ PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, zend_string **requ
     zval *zv_id;
     zval *zv_index;
     zval *zv_type;
-	zend_string *tmp_request_url;
+	//zend_string *tmp_request_url;
 
     // parse method args
     ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -117,15 +117,15 @@ PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, zend_string **requ
 
     // make request url
 	if((zv_id == NULL)) {
-		tmp_request_url = strpprintf(0, "http://%s:%d/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type));
+		*request_url = strpprintf(0, "http://%s:%d/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type));
 	} else if(Z_TYPE_P(zv_id) == IS_STRING) {
-		tmp_request_url = strpprintf(0, "http://%s:%d/%s/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type), Z_STRVAL_P(zv_id));
+		*request_url = strpprintf(0, "http://%s:%d/%s/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type), Z_STRVAL_P(zv_id));
 	} else {
         zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params exists error argv");
 		RETURN_FALSE;
     }
 
-	*request_url = tmp_request_url;
+	//*request_url = tmp_request_url;
 }
 /* }}} */
 
