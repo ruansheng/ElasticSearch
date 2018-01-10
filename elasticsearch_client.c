@@ -165,7 +165,7 @@ PHPAPI void es_client_add_request(INTERNAL_FUNCTION_PARAMETERS, zend_string **re
 
 	// free
 	free(ret.memory);
-	zend_string_free(request_url);
+	zend_string_free(*request_url);
 	zval_ptr_dtor(&call_func_name);
 	zval_ptr_dtor(&call_func_ret);
 	
@@ -173,7 +173,7 @@ PHPAPI void es_client_add_request(INTERNAL_FUNCTION_PARAMETERS, zend_string **re
 
 out:
 	free(ret.memory);
-	zend_string_free(request_url);
+	zend_string_free(*request_url);
 	zval_ptr_dtor(&call_func_name);
 	zval_ptr_dtor(&call_func_ret);
 	RETURN_FALSE;
