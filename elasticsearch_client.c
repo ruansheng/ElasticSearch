@@ -134,7 +134,7 @@ PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, zend_string **requ
     }
 
 #if RS_DEBUG == 1
-	TRACE("%s", Z_STRVAL_P(*request_url))
+	TRACE("%s", Z_STR_P(*request_url))
 #endif	
 }
 /* }}} */
