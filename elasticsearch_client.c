@@ -45,10 +45,10 @@ PHP_METHOD(elasticsearch_client, add) {
 	zend_string * request_url;
 	
 	// format 'request_url' and 'reques tbody'
-	es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, request_url, zv_body);
+	es_client_add_parse(INTERNAL_FUNCTION_PARAM_PASSTHRU, request_url, zv_body);
 
 	// request es server
-	es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, request_url, zv_body);
+	es_client_add_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, request_url, zv_body);
 }
 /* }}} */
 
