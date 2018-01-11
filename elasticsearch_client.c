@@ -376,13 +376,12 @@ PHPAPI void es_client_request(INTERNAL_FUNCTION_PARAMETERS, int type, zend_strin
 			}		
 			break;			
 		default:
-
+			goto out;
 			break;			
 	}
 
 	zend_string *result = strpprintf(0, "%s", ret.memory);
 
-	// free
 	free(ret.memory);
 	zend_string_free(*request_url);
 	zval_ptr_dtor(&call_func_name);
