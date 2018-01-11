@@ -51,7 +51,7 @@ PHP_METHOD(elasticsearch_client, __construct) {
 */
 PHP_METHOD(elasticsearch_client, add) {
 	zval *zv_body;
-	zend_string * request_url;
+	zend_string *request_url;
 	
 	// format 'request_url' and 'reques tbody'
 	es_client_add_parse(INTERNAL_FUNCTION_PARAM_PASSTHRU, &request_url, &zv_body);
