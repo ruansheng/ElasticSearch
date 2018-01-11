@@ -77,7 +77,8 @@ PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, int type, zend_str
 		Z_PARAM_ARRAY(params)
 	ZEND_PARSE_PARAMETERS_END();
 
-	if (Z_TYPE_P(params) != IS_ARRAY) {
+	if (Z_TYPE_P(params) != IS_ARRAY) 
+	{
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params must is array");
 		RETURN_FALSE;
 	}
@@ -86,37 +87,44 @@ PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, int type, zend_str
 
     // check and get map value by key 
 	zv_index = zend_hash_str_find(params_hash, "index", sizeof("index") - 1);
-	if(zv_index == NULL) {
+	if(zv_index == NULL) 
+	{
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "must contain 'index' in hash params");
 		RETURN_FALSE;
 	}
-    if(Z_TYPE_P(zv_index) != IS_STRING) {
+    if(Z_TYPE_P(zv_index) != IS_STRING) 
+	{
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params['index'] type must is string");
 		RETURN_FALSE;
 	}
 
     zv_type = zend_hash_str_find(params_hash, "type", sizeof("type") - 1);
-	if(zv_type == NULL) {
+	if(zv_type == NULL) 
+	{
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "must contain 'type' in hash params");
 		RETURN_FALSE;
 	}
-    if(Z_TYPE_P(zv_type) != IS_STRING) {
+    if(Z_TYPE_P(zv_type) != IS_STRING) 
+	{
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params['type'] type must is string");
 		RETURN_FALSE;
 	}
 
     *zv_body = zend_hash_str_find(params_hash, "body", sizeof("body") - 1);
-	if(*zv_body == NULL) {
+	if(*zv_body == NULL) 
+	{
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "must contain 'body' in hash params");
 		RETURN_FALSE;
 	}
-    if(Z_TYPE_P(*zv_body) != IS_ARRAY) {
+    if(Z_TYPE_P(*zv_body) != IS_ARRAY) 
+	{
 		zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params['body'] type must is array");
 		RETURN_FALSE;
 	}
 
     zv_id = zend_hash_str_find(params_hash, "id", sizeof("id") - 1);
-    if(zv_id != NULL && Z_TYPE_P(zv_id) == IS_LONG) {
+    if(zv_id != NULL && Z_TYPE_P(zv_id) == IS_LONG) 
+	{
         convert_to_string(zv_id);
     }
 
@@ -124,11 +132,16 @@ PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, int type, zend_str
 	port = zend_read_property(elasticsearch_client_ce, getThis(), "port", sizeof("port") -1, 0, port);
 
     // make request url
-	if((zv_id == NULL)) {
+	if((zv_id == NULL)) 
+	{
 		*request_url = strpprintf(0, "http://%s:%d/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type));
-	} else if(Z_TYPE_P(zv_id) == IS_STRING) {
+	} 
+	else if(Z_TYPE_P(zv_id) == IS_STRING) 
+	{
 		*request_url = strpprintf(0, "http://%s:%d/%s/%s/%s", Z_STRVAL_P(host), Z_LVAL_P(port), Z_STRVAL_P(zv_index), Z_STRVAL_P(zv_type), Z_STRVAL_P(zv_id));
-	} else {
+	} 
+	else 
+	{
         zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "params exists error argv");
 		RETURN_FALSE;
     }
@@ -203,7 +216,7 @@ PHPAPI void es_client_request(INTERNAL_FUNCTION_PARAMETERS, int type, zend_strin
 			}		
 			break;			
 		default:
-			
+
 			break;			
 	}
 
