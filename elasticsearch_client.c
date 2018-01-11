@@ -62,7 +62,7 @@ PHP_METHOD(elasticsearch_client, add) {
 /* }}} */
 
 /* {{{ es_client_add_parse - ElasticSearchClient::add helper */
-PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, int type, zend_string **request_url, zval **zv_body) 
+PHPAPI void es_client_add_parse(INTERNAL_FUNCTION_PARAMETERS, zend_string **request_url, zval **zv_body) 
 {
 	zval *params = NULL;
     zval *host;
