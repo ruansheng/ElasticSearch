@@ -57,7 +57,7 @@ PHP_METHOD(elasticsearch_client, add) {
 	es_client_parse(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_ADD, &request_url, &zv_body);
 
 	// request es server
-	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_ADD, &request_url, &zv_body);
+	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_ADD, request_url, zv_body);
 }
 /* }}} */
 
@@ -71,7 +71,7 @@ PHP_METHOD(elasticsearch_client, remove) {
 	es_client_parse(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_REMOVE, &request_url, &zv_body);
 
 	// request es server
-	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_REMOVE, &request_url, &zv_body);
+	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_REMOVE, request_url, zv_body);
 }
 /* }}} */
 
@@ -85,7 +85,7 @@ PHP_METHOD(elasticsearch_client, update) {
 	es_client_parse(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_UPDATE, &request_url, &zv_body);
 
 	// request es server
-	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_UPDATE, &request_url, &zv_body);
+	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_UPDATE, request_url, zv_body);
 }
 /* }}} */
 
@@ -99,7 +99,7 @@ PHP_METHOD(elasticsearch_client, get) {
 	es_client_parse(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_GET, &request_url, &zv_body);
 
 	// request es server
-	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_GET, &request_url, &zv_body);
+	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_GET, request_url, zv_body);
 }
 /* }}} */
 
@@ -113,7 +113,7 @@ PHP_METHOD(elasticsearch_client, search) {
 	es_client_parse(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_SEARCH, &request_url, &zv_body);
 
 	// request es server
-	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_SEARCH, &request_url, &zv_body);
+	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_SEARCH, request_url, zv_body);
 }
 /* }}} */
 
