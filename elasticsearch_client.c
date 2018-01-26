@@ -57,7 +57,7 @@ PHP_METHOD(elasticsearch_client, add) {
 	es_client_parse(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_ADD, &request_url, &zv_body);
 
 	// request es server
-	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_ADD, &request_url, &zv_body);
+	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_ADD, request_url, zv_body);
 }
 /* }}} */
 
@@ -71,7 +71,7 @@ PHP_METHOD(elasticsearch_client, remove) {
 	es_client_parse(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_REMOVE, &request_url, &zv_body);
 
 	// request es server
-	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_REMOVE, &request_url, &zv_body);
+	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_REMOVE, request_url, zv_body);
 }
 /* }}} */
 
@@ -85,7 +85,7 @@ PHP_METHOD(elasticsearch_client, update) {
 	es_client_parse(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_UPDATE, &request_url, &zv_body);
 
 	// request es server
-	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_UPDATE, &request_url, &zv_body);
+	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_UPDATE, request_url, zv_body);
 }
 /* }}} */
 
@@ -99,7 +99,7 @@ PHP_METHOD(elasticsearch_client, get) {
 	es_client_parse(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_GET, &request_url, &zv_body);
 
 	// request es server
-	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_GET, &request_url, &zv_body);
+	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_GET, request_url, zv_body);
 }
 /* }}} */
 
@@ -113,7 +113,7 @@ PHP_METHOD(elasticsearch_client, search) {
 	es_client_parse(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_SEARCH, &request_url, &zv_body);
 
 	// request es server
-	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_SEARCH, &request_url, &zv_body);
+	es_client_request(INTERNAL_FUNCTION_PARAM_PASSTHRU, ES_TYPE_SEARCH, request_url, zv_body);
 }
 /* }}} */
 
@@ -313,7 +313,7 @@ PHPAPI void es_client_parse(INTERNAL_FUNCTION_PARAMETERS, int type, zend_string 
 /* }}} */
 
 /* {{{ es_client_request - ElasticSearchClient helper */
-PHPAPI void es_client_request(INTERNAL_FUNCTION_PARAMETERS, int type, zend_string **request_url, zval **zv_body) 
+PHPAPI void es_client_request(INTERNAL_FUNCTION_PARAMETERS, int type, zend_string *request_url, zval *zv_body) 
 {
 	zval *connect_timeout;
     zval *request_timeout;    
@@ -332,7 +332,7 @@ PHPAPI void es_client_request(INTERNAL_FUNCTION_PARAMETERS, int type, zend_strin
 	zval func_params[1];
 
 	ZVAL_STRING(&call_func_name, "json_encode");
-	ZVAL_ZVAL(&func_params[0], *zv_body, 0, 0);
+	ZVAL_ZVAL(&func_params[0], zv_body, 0, 0);
 	if(SUCCESS != call_user_function(EG(function_table), NULL, &call_func_name, &call_func_ret, param_count, func_params)) 
 	{
 		goto out;
@@ -341,35 +341,35 @@ PHPAPI void es_client_request(INTERNAL_FUNCTION_PARAMETERS, int type, zend_strin
 	switch(type) 
 	{
 		case ES_TYPE_ADD:
-			if(!libcurlPost(ZSTR_VAL(*request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) 
+			if(!libcurlPost(ZSTR_VAL(request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) 
 			{
 				zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "curl request error");
 				goto out;
 			}
 			break;
 		case ES_TYPE_REMOVE:
-			if(!libcurlPost(ZSTR_VAL(*request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) 
+			if(!libcurlPost(ZSTR_VAL(request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) 
 			{
 				zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "curl request error");
 				goto out;
 			}
 			break;	
 		case ES_TYPE_UPDATE:
-			if(!libcurlPost(ZSTR_VAL(*request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) 
+			if(!libcurlPost(ZSTR_VAL(request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) 
 			{
 				zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "curl request error");
 				goto out;
 			}
 			break;
 		case ES_TYPE_GET:	
-			if(!libcurlPost(ZSTR_VAL(*request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) 
+			if(!libcurlPost(ZSTR_VAL(request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) 
 			{
 				zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "curl request error");
 				goto out;
 			}		
 			break;			
 		case ES_TYPE_SEARCH:	
-			if(!libcurlPost(ZSTR_VAL(*request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) 
+			if(!libcurlPost(ZSTR_VAL(request_url), Z_STRVAL(call_func_ret), &ret, Z_LVAL_P(connect_timeout), Z_LVAL_P(request_timeout))) 
 			{
 				zend_update_property_string(elasticsearch_client_ce,  getThis(), "message", sizeof("message") - 1, "curl request error");
 				goto out;
@@ -383,7 +383,7 @@ PHPAPI void es_client_request(INTERNAL_FUNCTION_PARAMETERS, int type, zend_strin
 	zend_string *result = strpprintf(0, "%s", ret.memory);
 
 	free(ret.memory);
-	zend_string_free(*request_url);
+	zend_string_free(request_url);
 	zval_ptr_dtor(&call_func_name);
 	zval_ptr_dtor(&call_func_ret);
 	
@@ -391,7 +391,7 @@ PHPAPI void es_client_request(INTERNAL_FUNCTION_PARAMETERS, int type, zend_strin
 
 out:
 	free(ret.memory);
-	zend_string_free(*request_url);
+	zend_string_free(request_url);
 	zval_ptr_dtor(&call_func_name);
 	zval_ptr_dtor(&call_func_ret);
 	RETURN_FALSE;
